@@ -51,7 +51,8 @@ lorax_templates/%.tmpl: lorax_templates/%.tmpl.in
 
 # Step 2: Build boot.iso using Lorax
 boot.iso: lorax_templates/set_installer.tmpl lorax_templates/configure_upgrades.tmpl
-	rm -Rf $(_BASE_DIR)/results
+	rm -Rf $(_BASE_DIR)/results || true
+	rm /etc/rpm/macros.image-language-conf || true
 
 	# Set the enrollment password
 	sed 's/@ENROLLMENT_PASSWORD@/$(ENROLLMENT_PASSWORD)/' $(_BASE_DIR)/scripts/enroll-secureboot-key.sh.in > $(_BASE_DIR)/scripts/enroll-secureboot-key.sh
