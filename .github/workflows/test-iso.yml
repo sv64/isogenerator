@@ -52,8 +52,6 @@ jobs:
           IMAGE_REPO: 'ghcr.io/ublue-os'
           VARIANT: 'Kinoite'
           VERSION: ${{ matrix.version }}
-          ACTION_REPO: ${{ github.repository }}
-          ACTION_REF: ${{ github.ref }}
           SECURE_BOOT_KEY_URL: ${{ matrix.SECURE_BOOT_KEY_URL }}
           ENROLLMENT_PASSWORD: ${{ matrix.ENROLLMENT_PASSWORD }}
 

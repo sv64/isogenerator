@@ -40,13 +40,11 @@ inputs:
     description: Secure boot key that is installed from URL location
     required: false
   ACTION_REPO:
-    description: Repository with the build action
+    deprecationMessage: This variable is no longer used and will be removed in a future version
     required: false
-    default: ${{ github.repository }}
   ACTION_REF:
-    description: Repository ref for the build action
+    deprecationMessage: This variable is no longer used and will be removed in a future version
     required: false
-    default: ${{ github.ref }}
 
 outputs:
   output-directory:
@@ -78,19 +76,13 @@ runs:
           echo "Host must be mounted as /host in order to make more space"
         fi
         
-    - name: Install make and git
+    - name: Install Make
       shell: bash
-      run: dnf install -y make git
-
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ inputs.ACTION_REPO }}
-        ref: ${{ inputs.ACTION_REF }}
-        submodules: recursive
+      run: dnf install -y make
 
     - name: Install dependencies
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: make install-deps
 
     - name: Lowercase Registry
@@ -101,6 +93,7 @@ runs:
 
     - name: Download image
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: |
         make container/${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }} \
           ARCH=${{ inputs.ARCH }} \
@@ -113,6 +106,7 @@ runs:
 
     - name: Create boot.iso
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: |
         make boot.iso \
           ARCH=${{ inputs.ARCH }} \
@@ -129,6 +123,7 @@ runs:
     - name: Create deploy.iso and generate sha256 checksum
       shell: bash
       id: final
+      working-directory: ${{ github.action_path }}
       run: |
         make ${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}.iso \
           ARCH=${{ inputs.ARCH }} \
