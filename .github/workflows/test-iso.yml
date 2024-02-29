@@ -27,18 +27,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version:
-          - 38
-          - 39
-        secure_boot:
-          - true
-          - false
+        version: [38, 39]
+        boot: [secureboot, insecure]
         include:
-          - secure_boot: true
+          - boot: secureboot
             SECURE_BOOT_KEY_URL: 'https://github.com/ublue-os/akmods/raw/main/certs/public_key.der'
             ENROLLMENT_PASSWORD: 'ublue-os'
             SECURE_BOOT_STRING: '-secure'
-          - secure_boot: false
+          - boot: insecure
             SECURE_BOOT_KEY_URL: ''
             ENROLLMENT_PASSWORD: ''
             SECURE_BOOT_STRING: ''
