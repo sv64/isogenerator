@@ -35,6 +35,9 @@ sudo podman run --rm --privileged --volume .:/isogenerator/output -e VERSION=39 
 ```
 
 ## Customizing
+
+### Inputs
+
 The following variables can be used to customize the create image.
 
 | Variable            | Description                                                  | Default Value          |
@@ -55,6 +58,16 @@ The following variables can be used to customize the create image.
 \*\*NOTE: ENROLLMENT_PASSWORD and SECURE_BOOT_KEY_URL are not required. They are only required if you are creating specific kernel modules or if you are using Universal Blue Kernel Modules.
 
 Our public key for our kmods is located here: https://github.com/ublue-os/akmods/raw/main/certs/public_key.der
+
+### Outputs
+
+This action outputs some useful values for you to use further on in your workflow.
+
+| Output | Description |
+| ------ | ----------- |
+| output-directory | The directory containing ISO and checksum files |
+| iso-path | The full path to the ISO file |
+| checksum-path | The full path to the checksum file |
 
 ## VSCode Dev Container
 There is a dev container configuration provided for development. By default it will use the existing container image available at `ghcr.io/ublue-os/isogenerator`, however, you can have it build a new image by editing `.devcontainer/devcontainer.json` and replacing `image` with `build`. `Ctrl+/` can be used to comment and uncomment blocks of code within VSCode.

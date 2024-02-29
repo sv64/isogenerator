@@ -48,6 +48,14 @@ inputs:
     required: false
     default: ${{ github.ref }}
 
+outputs:
+  output-directory:
+    value: ${{ steps.final.outputs.OUTPUT_DIR }}
+  iso-path: 
+    value: ${{ steps.final.outputs.ISO_PATH }}
+  checksum-path: 
+    value: ${{ steps.final.outputs.CHECKSUM_PATH }} 
+
 runs:
   using: composite
   steps:
@@ -120,6 +128,7 @@ runs:
 
     - name: Create deploy.iso and generate sha256 checksum
       shell: bash
+      id: final
       run: |
         make ${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}.iso \
           ARCH=${{ inputs.ARCH }} \
@@ -132,3 +141,7 @@ runs:
         mkdir end_iso
         sha256sum ${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}.iso > ./end_iso/${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}-CHECKSUM
         mv ${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}.iso end_iso/
+        
+        echo "OUTPUT_DIR=$(realpath ./end_iso)" >> $GITHUB_OUTPUT
+        echo "ISO_PATH=$(realpath ./end_iso/${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}.iso)" >> $GITHUB_OUTPUT
+        echo "CHECKSUM_PATH=$(realpath ./end_iso/${{ inputs.IMAGE_NAME }}-${{ inputs.IMAGE_TAG || inputs.VERSION }}-CHECKSUM)" >> $GITHUB_OUTPUT

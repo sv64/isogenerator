@@ -44,6 +44,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build ISO
+        id: build-iso
         uses: ./
         with:
           ARCH: 'x86_64'
@@ -60,7 +61,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: base-main-${{ matrix.version }}${{ matrix.SECURE_BOOT_STRING }}.iso
-          path: end_iso/*
+          path: |
+            ${{ steps.build-iso.outputs.iso-path }}
+            ${{ steps.build-iso.outputs.checksum-path }}
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
