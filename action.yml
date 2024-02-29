@@ -35,6 +35,7 @@ inputs:
   ENROLLMENT_PASSWORD:
     description: Used for supporting secure boot (requires SECURE_BOOT_KEY_URL to be defined)
     required: false
+    default: "ublue-os"
   SECURE_BOOT_KEY_URL:
     description: Secure boot key that is installed from URL location
     required: false
