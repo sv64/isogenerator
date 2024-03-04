@@ -4,7 +4,7 @@ ARG VERSION=39
 FROM fedora:${VERSION}
 
 # Set version for the environment variables in the container.
-ARG VERSION=39
+ARG VERSION=${VERSION}
 
 ENV ARCH="x86_64"
 ENV IMAGE_NAME="base-main"
