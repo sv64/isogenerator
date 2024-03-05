@@ -15,7 +15,7 @@ on:
 jobs:
   build-and-push-iso:
     name: Build ISO
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: fedora:39
       options: "--privileged"
