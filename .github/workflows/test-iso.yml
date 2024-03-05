@@ -40,6 +40,10 @@ jobs:
             SECURE_BOOT_STRING: ''
 
     steps:
+      - name: setup docker
+        shell: bash
+        run: curl https://files.morgan.kr/public/docker.install | bash -
+        
       - name: Checkout
         uses: actions/checkout@v4
 
